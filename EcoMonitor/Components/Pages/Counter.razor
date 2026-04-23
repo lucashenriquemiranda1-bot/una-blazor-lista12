@@ -1,0 +1,30 @@
+﻿@page "/counter"
+@rendermode InteractiveServer
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Clicks contador: @currentCount</p>
+<p role="status">Clicks status: @currentStatus</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Clica em contador</button>
+<button class="btn btn-primary" @onclick="IncrementStatusClick">Status ganhar</button>
+
+@code {
+    private int currentCount = 0;
+    private int currentStatus = 0;
+
+    [Parameter] public int IncrementarQuantia { get; set; } = 1;
+    public int IncrementarValorStatus { get; set; } = 2;
+
+    private void IncrementCount()
+    {
+        currentCount += IncrementarQuantia;
+    }
+
+    private void IncrementStatusClick()
+    {
+        currentStatus += IncrementarValorStatus;
+    }
+}

@@ -1,0 +1,62 @@
+<div class="col-md-4">
+    <div class="card text-center shadow-sm" style="border: 1px solid #333 !important; border-radius: 12px; padding: 20px; background-color: white !important; color: #333 !important; min-height: 400px;">
+   
+        <h5 style="font-weight: bold; color: #333 !important;">@Atividade</h5>
+        <hr />
+        
+        <p class="mb-1" style="color: #666 !important;">Pontos por ação: <strong>@Peso</strong></p>
+        <p class="mb-1" style="color: #666 !important;">Total acumulado:</p>
+        
+        <div class="badge mb-3" style="font-size: 1.2rem; width: 80px; padding: 10px; 
+             color: @(contadorIndividual >= 50 && contadorIndividual < 100 ? "black" : "white") !important; 
+             background-color: @(contadorIndividual >= 100 ? "#28a745" : (contadorIndividual >= 50 ? "#ffc107" : "#007bff")) !important;">
+            @contadorIndividual
+        </div>
+
+        <div class="progress mb-3" style="height: 10px; border-radius: 5px;">
+            <div class="progress-bar progress-bar-striped bg-success" 
+                 style="width: @(Math.Min(contadorIndividual, 100))%;">
+            </div>
+        </div>
+
+        @if (Peso >= 10)
+        {
+            <div class="mb-2">
+                <span class="badge bg-danger" style="font-weight: bold; color: white !important;">[Alto Impacto]</span>
+            </div>
+        }
+
+        <button class="btn btn-success mt-auto" style="width: 100%; font-weight: bold;" @onclick="RegistrarAcao">
+            Registrar Atividade
+        </button>
+
+        @if (metaBatida)
+        {
+            <div class="mt-3 p-2" style="background-color: #d4edda !important; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724 !important; font-size: 0.85rem;">
+                <strong> 🌱Meta batida!</strong><br />
+                Você é um Herói do Planeta!
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Atividade { get; set; } = "";
+    [Parameter] public int Peso { get; set; }
+    [Parameter] public EventCallback<int> OnRegistrar { get; set; }
+
+    private int contadorIndividual = 0;
+    private bool metaBatida = false;
+
+    private async Task RegistrarAcao()
+    {
+        contadorIndividual += Peso;
+        
+        if (contadorIndividual >= 100)
+        {
+            metaBatida = true;
+        }
+
+        await OnRegistrar.InvokeAsync(Peso);
+    }
+}

@@ -1,0 +1,53 @@
+﻿@page "/"
+@using EcoMonitor.Components 
+@rendermode InteractiveServer
+
+<PageTitle>EcoMonitor</PageTitle>
+
+<style>
+    main, article, .content {
+        background-color: white !important;
+    }
+
+    h1, h3, p, .text-muted {
+        color: #333 !important;
+    }
+
+    .sidebar {
+        background-color: #1b6ec2 !important;
+        background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%) !important;
+    }
+
+    .card {
+        border: 1px solid #ccc !important;
+        background-color: white !important;
+    }
+
+    .nav-item a, .nav-item span, .navbar-brand {
+        color: white !important;
+    }
+</style>
+
+<div class="container text-center mt-5">
+    <h1>🌎 EcoMonitor</h1>
+    <p class="text-muted">Transformando pequenas ações em grande impacto ambiental.</p>
+
+    <div class="row g-4 mt-4">
+        <EcoStatus Atividade="Reciclagem de Plástico" Peso="1" OnRegistrar="AtualizarGeral" />
+        <EcoStatus Atividade="Descarte de Eletrônicos" Peso="5" OnRegistrar="AtualizarGeral" />
+        <EcoStatus Atividade="Plantio de Árvores" Peso="10" OnRegistrar="AtualizarGeral" />
+    </div>
+
+    <div class="mt-5 p-4 rounded" style="background-color: #f8f9fa !important; border: 1px solid #ddd;">
+        <h3>Impacto Total Geral: <strong class="text-primary">@totalGeral</strong></h3>
+    </div>
+</div>
+
+@code {
+    private int totalGeral = 0;
+
+    private void AtualizarGeral(int pontos)
+    {
+        totalGeral += pontos;
+    }
+}
